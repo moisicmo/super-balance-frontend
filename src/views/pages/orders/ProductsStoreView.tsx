@@ -1,22 +1,15 @@
 import { ComponentInput } from "@/components";
-import { useKardexProductStore } from "@/hooks";
+import { useCartStore, useForm } from "@/hooks";
 import { ProductModel } from "@/models";
 import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@mui/icons-material";
-import { Box, Button, Collapse, IconButton, Stack, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button, Collapse, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { useState } from "react";
 
 interface storeProps {
   product: ProductModel;
   warehouseId: string
 }
 const formFields = {
-  name: '',
-  lastName: '',
-  email: '',
-  roleId: '',
-  typeUserId: '',
-  warehouses: '',
-  search: '',
   quantity: ''
 }
 
@@ -25,29 +18,19 @@ export const ProductsStoreView = (props: storeProps) => {
     product,
     warehouseId
   } = props;
-  const [openIndex, setOpenIndex] = useState(null);
-  const { getAllKardexProducts } = useKardexProductStore();
-
-  // Obtener los tipos de usuarios
-  useEffect(() => {
-    getAllKardexProducts();
-  }, []);
+  const [openIndex, setOpenIndex] = useState<any>(null);
 
 
 
   function RowProductStatus({ product, productStatus }: any) {
-    console.log(product)
-    console.log(productStatus)
-    // const dispatch = useDispatch();
-    // const { quantity, onInputChange, onResetForm } = useForm(formFields);
-    // const AddItem = (product) => {
-    //   if (quantity === "") return;
-    //   const newProductStatus = { ...productStatus, quantity: parseInt(quantity) }
-    //   const newProduct = { ...product, productStatus: newProductStatus, warehouseId }
-    //   console.log(newProduct)
-    //   dispatch(setAddCartProduct({ product: newProduct }))
-
-    // }
+    const { quantity, onInputChange } = useForm(formFields);
+    const { setAddCart } = useCartStore();
+    const AddItem = (product: any) => {
+      if (quantity === "") return;
+      const newProductStatus = { ...productStatus, quantity: parseInt(quantity) }
+      const newProduct = { ...product, productStatus: newProductStatus, warehouseId }
+      setAddCart(newProduct);
+    }
     return (
       <>
         <TableRow >
@@ -55,15 +38,15 @@ export const ProductsStoreView = (props: storeProps) => {
             {productStatus.name}
           </TableCell>
           <TableCell component="th" style={{ padding: 0 }}>
-            {/* <ComponentInput type="text" label="" name="quantity" value={quantity} onChange={(v) => onInputChange(v, false, true)} /> */}
+            <ComponentInput type="text" label="" name="quantity" value={quantity} onChange={(v: any) => onInputChange(v, false, true)} />
           </TableCell>
           <TableCell component="th">
-            {/* <Button
+            <Button
               onClick={() => AddItem(product)}
               style={{ padding: 0 }}
             >
               Agregar
-            </Button> */}
+            </Button>
           </TableCell>
         </TableRow>
       </>
@@ -73,7 +56,7 @@ export const ProductsStoreView = (props: storeProps) => {
     <>
       <TableRow key={product.id} >
         <TableCell component="th">
-          {/* <IconButton
+          <IconButton
             aria-label="expand row"
             size="small"
             onClick={() => {
@@ -85,7 +68,7 @@ export const ProductsStoreView = (props: storeProps) => {
             }}
           >
             {openIndex == product.id ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
-          </IconButton> */}
+          </IconButton>
         </TableCell>
         <TableCell component="th">
           {product.name}
@@ -109,11 +92,11 @@ export const ProductsStoreView = (props: storeProps) => {
                     <TableCell>Acción</TableCell>
                   </TableRow>
                 </TableHead>
-                {/* <TableBody>
+                <TableBody>
                   {product.productStatus.map((productStatus) => (
                     <RowProductStatus key={productStatus.id} product={product} productStatus={productStatus} />
                   ))}
-                </TableBody> */}
+                </TableBody>
               </Table>
             </Box>
           </Collapse>

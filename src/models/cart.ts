@@ -1,4 +1,4 @@
-import { CategoryModel, ProductModel, UnitMeasurementModel, WarehouseModel } from ".";
+import { CategoryModel, ProductModel, UnitMeasurementModel } from ".";
 
 /* CART MODEL */
 export interface CartModel {
@@ -22,5 +22,5 @@ export interface CartModel {
     typeDiscount: string;
     quantity: number
   };
-  warehouseId: WarehouseModel;
+  warehouseId: string;
 }

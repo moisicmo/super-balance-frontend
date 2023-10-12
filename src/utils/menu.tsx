@@ -36,8 +36,8 @@ export const menu = () => {
                     permission: "show-halls"
                 },
                 {
-                    path: "/warehousesView",
-                    title: "Pedidos",
+                    path: "/orderView",
+                    title: "Ordenes",
                     icon: <Home />,
                     permission: "show-halls"
                 },
