@@ -51,18 +51,18 @@ export const CreateCustomer = (props: createProps) => {
                 {
                     name: name.trim(),
                     email: email.trim(),
-                    phone: phone.trim(),
+                    phone: phone,
                     typeDocumentId: typeDocumentId.id,
-                    numberDocument: numberDocument.trim()
+                    numberDocument: numberDocument
                 });
         } else {
             putUpdateCustomer(item.id,
                 {
                     name: name.trim(),
                     email: email.trim(),
-                    phone: phone.trim(),
+                    phone: phone,
                     typeDocumentId: typeDocumentId.id,
-                    numberDocument: numberDocument.trim()
+                    numberDocument: numberDocument
                 });
         }
         handleClose();
@@ -137,7 +137,7 @@ export const CreateCustomer = (props: createProps) => {
                             <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                                 <ComponentSelect
                                     label={typeDocumentId != null ? 'Tipo de documento' : ''}
-                                    title={typeDocumentId != null ? typeDocumentId.name : 'Rol'}
+                                    title={typeDocumentId != null ? typeDocumentId.name : 'Tipo de documento'}
                                     onPressed={() => handleModal(true)}
                                     error={!!typeDocumentIdValid && formSubmitted}
                                     helperText={formSubmitted ? typeDocumentIdValid : ''}

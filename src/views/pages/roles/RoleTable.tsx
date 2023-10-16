@@ -2,8 +2,8 @@ import { ComponentSearch, ComponentTablePagination, SeverityPill } from "@/compo
 import { useRoleStore } from "@/hooks";
 import { PermissionModel, RoleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { DeleteOutline, EditOutlined, RemoveRedEyeOutlined } from "@mui/icons-material";
+import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 
 interface tableProps {
@@ -12,6 +12,7 @@ interface tableProps {
     stateSelect?: boolean;
     itemSelect?: (role: RoleModel) => void;
     items?: any[];
+    onViewPermisions?: (values: PermissionModel[]) => void;
 }
 
 
@@ -22,13 +23,14 @@ export const RoleTable = (props: tableProps) => {
         itemSelect,
         items = [],
         limitInit = 10,
+        onViewPermisions,
     } = props;
 
     const { roles, getRoles, deleteRole } = useRoleStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [roleList, setRoleList] = useState<RoleModel[]>([]);
-
+    const [query, setQuery] = useState<string>('');
 
 
     useEffect(() => {
@@ -36,19 +38,23 @@ export const RoleTable = (props: tableProps) => {
     }, []);
 
     useEffect(() => {
-        const defaultPermisionsList = applyPagination(
-            roles,
+        const filtered = roles.filter((e: RoleModel) =>
+            e.name.toLowerCase().includes(query.toLowerCase())
+        );
+        const newList = applyPagination(
+            query != '' ? filtered : roles,
             page,
             rowsPerPage
         );
-        setRoleList(defaultPermisionsList)
-    }, [roles, page, rowsPerPage])
+        setRoleList(newList)
+    }, [roles, page, rowsPerPage, query])
 
 
     return (
         <Stack sx={{ paddingRight: '10px' }}>
             <ComponentSearch
                 title="Buscar Rol"
+                search={setQuery}
             />
             <TableContainer>
                 <Table sx={{ minWidth: 350 }} size="small">
@@ -74,7 +80,15 @@ export const RoleTable = (props: tableProps) => {
                                         </TableCell>
                                     }
                                     <TableCell>{role.name}</TableCell>
-                                    <TableCell>{role.permisionIds.map((permission: PermissionModel, index) => (<Typography key={index}>- {permission.name}</Typography>))}</TableCell>
+                                    {
+                                        !stateSelect && <TableCell>
+                                            <IconButton
+                                                onClick={() => onViewPermisions!(role.permisionIds)}
+                                            >
+                                                <RemoveRedEyeOutlined color="info" />
+                                            </IconButton>
+                                        </TableCell>
+                                    }
                                     <TableCell>
                                         <SeverityPill color={role.state ? 'success' : 'error'}>
                                             {role.state ? 'Disponible' : 'Inactivo'}

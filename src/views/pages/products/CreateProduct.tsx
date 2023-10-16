@@ -90,7 +90,6 @@ export const CreateProduct = (props: createProps) => {
                     handleDrawer={handleModalCategory}
                 >
                     <CategoryTable
-                        stateSelect={true}
                         limitInit={5}
                         itemSelect={(v) => {
                             if (categoryId == null || categoryId.id != v.id) {
@@ -112,7 +111,6 @@ export const CreateProduct = (props: createProps) => {
                     handleDrawer={handleModalUnitMeasurement}
                 >
                     <UnitMeasurementTable
-                        stateSelect={true}
                         limitInit={5}
                         itemSelect={(v) => {
                             if (unitMeasurementId == null || unitMeasurementId.id != v.id) {

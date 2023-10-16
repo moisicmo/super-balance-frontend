@@ -63,8 +63,12 @@ export const useRoleStore = () => {
                         'error'
                     )
                 }
+            }).catch((error) => {
+                console.log(error)
+                Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
             });
         } catch (error: any) {
+            console.log(error)
             Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
         }
     }

@@ -1,13 +1,17 @@
 import { ComponentInput } from "@/components";
-import { useCartStore, useForm } from "@/hooks";
-import { ProductModel } from "@/models";
+import { useForm } from "@/hooks";
+import { OutputModel, ProductModel, ProductStatusModel, WarehouseModel } from "@/models";
 import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@mui/icons-material";
 import { Box, Button, Collapse, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { useState } from "react";
 
 interface storeProps {
   product: ProductModel;
-  warehouseId: string
+  pushItem: (output: OutputModel) => void;
+  warehouseId: WarehouseModel
+}
+interface rowProps {
+  productStatus: ProductStatusModel;
 }
 const formFields = {
   quantity: ''
@@ -16,20 +20,29 @@ const formFields = {
 export const ProductsStoreView = (props: storeProps) => {
   const {
     product,
+    pushItem,
     warehouseId
   } = props;
   const [openIndex, setOpenIndex] = useState<any>(null);
 
 
 
-  function RowProductStatus({ product, productStatus }: any) {
+  function RowProductStatus(props: rowProps) {
+    const {
+      productStatus
+    } = props;
     const { quantity, onInputChange } = useForm(formFields);
-    const { setAddCart } = useCartStore();
-    const AddItem = (product: any) => {
+    const AddItem = () => {
       if (quantity === "") return;
-      const newProductStatus = { ...productStatus, quantity: parseInt(quantity) }
-      const newProduct = { ...product, productStatus: newProductStatus, warehouseId }
-      setAddCart(newProduct);
+      const output: OutputModel = {
+        productStatusId: productStatus,
+        warehouseId: warehouseId,
+        price: productStatus.price,
+        quantity: parseInt(quantity),
+        discount: 0,
+        typeDiscount: 'Monto',
+      }
+      pushItem(output);
     }
     return (
       <>
@@ -42,7 +55,7 @@ export const ProductsStoreView = (props: storeProps) => {
           </TableCell>
           <TableCell component="th">
             <Button
-              onClick={() => AddItem(product)}
+              onClick={() => AddItem()}
               style={{ padding: 0 }}
             >
               Agregar
@@ -94,7 +107,10 @@ export const ProductsStoreView = (props: storeProps) => {
                 </TableHead>
                 <TableBody>
                   {product.productStatus.map((productStatus) => (
-                    <RowProductStatus key={productStatus.id} product={product} productStatus={productStatus} />
+                    <RowProductStatus
+                      key={productStatus.id}
+                      productStatus={productStatus}
+                    />
                   ))}
                 </TableBody>
               </Table>

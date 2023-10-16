@@ -28,7 +28,7 @@ export const CustomerTable = (props: tableProps) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [customerList, setCustomerList] = useState<CustomerModel[]>([]);
-
+    const [query, setQuery] = useState<string>('');
 
 
     useEffect(() => {
@@ -36,25 +36,33 @@ export const CustomerTable = (props: tableProps) => {
     }, []);
 
     useEffect(() => {
-        const defaultPermisionsList = applyPagination(
-            customers,
+        const filtered = customers.filter((e: CustomerModel) =>
+            e.name.toLowerCase().includes(query.toLowerCase())
+        );
+        const newList = applyPagination(
+            query != '' ? filtered : customers,
             page,
             rowsPerPage
         );
-        setCustomerList(defaultPermisionsList)
-    }, [customers, page, rowsPerPage])
+        setCustomerList(newList)
+    }, [customers, page, rowsPerPage, query])
 
 
     return (
         <Stack sx={{ paddingRight: '10px' }}>
             <ComponentSearch
                 title="Buscar Cliente"
+                search={setQuery}
             />
             <TableContainer>
                 <Table sx={{ minWidth: 350 }} size="small">
                     <TableHead>
                         <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
                             <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Teléfono</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Correo</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Tipo de documento</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Numero de documento</TableCell>
                             {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
                         </TableRow>
                     </TableHead>
@@ -72,6 +80,10 @@ export const CustomerTable = (props: tableProps) => {
                                         </TableCell>
                                     }
                                     <TableCell>{customer.name}</TableCell>
+                                    <TableCell>{customer.phone}</TableCell>
+                                    <TableCell>{customer.email}</TableCell>
+                                    <TableCell>{customer.typeDocumentId.name}</TableCell>
+                                    <TableCell>{customer.numberDocument}</TableCell>
                                     {
                                         !stateSelect && <TableCell align="right">
                                             <Stack

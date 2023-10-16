@@ -6,7 +6,7 @@ export interface KardexProductModel {
   warehouseId: WarehouseModel;
   inputOrOutput: {
     price: number,
-    quatity: number,
+    quantity: number,
     createdAt: Date,
     productStatusId: ProductStatusModel;
   };
@@ -20,7 +20,7 @@ export interface FormInputProductModel {
   warehouseId: WarehouseModel | null;
   productStatusId: ProductStatusModel | null;
   detail: string;
-  quatity: number;
+  quantity: number;
   price: number;
 }
 
@@ -29,6 +29,6 @@ export interface FormInputProductValidations {
   warehouseId: [(value: WarehouseModel) => boolean, string];
   productStatusId: [(value: ProductStatusModel) => boolean, string];
   detail: [(value: string) => boolean, string];
-  quatity: [(value: number) => boolean, string];
+  quantity: [(value: number) => boolean, string];
   price: [(value: number) => boolean, string];
 }

@@ -1,5 +1,5 @@
 import { ComponentDate, ComponentInput, ComponentSelect, ModalSelectComponent } from "@/components"
-import { useForm, useKardexProductStore, useProductStore } from "@/hooks";
+import { useForm, useKardexProductStore } from "@/hooks";
 import { FormInputProductModel, FormInputProductValidations, ProductStatusModel, WarehouseModel } from "@/models";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, Switch } from "@mui/material"
 import { FormEvent, useCallback, useState } from "react";
@@ -15,7 +15,7 @@ const formFields: FormInputProductModel = {
   warehouseId: null,
   productStatusId: null,
   detail: '',
-  quatity: 0,
+  quantity: 0,
   price: 0
 }
 
@@ -23,7 +23,7 @@ const formValidations: FormInputProductValidations = {
   warehouseId: [(value: WarehouseModel) => value != null, 'Debe ingresar el nombre'],
   productStatusId: [(value: ProductStatusModel) => value != null, 'Debe ingresar el nombre'],
   detail: [(value: string) => value.length >= 0, 'Debe ingresar el nombre'],
-  quatity: [(value: number) => value != 0, 'Debe ingresar el nombre'],
+  quantity: [(value: number) => value != 0, 'Debe ingresar el nombre'],
   price: [(value: number) => value != 0, 'Debe ingresar el nombre'],
 }
 
@@ -37,9 +37,9 @@ export const CreateInputProduct = (props: createProps) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const {
-    warehouseId, productStatusId, detail, quatity, price,
+    warehouseId, productStatusId, detail, quantity, price,
     onInputChange, isFormValid, onResetForm, onValueChange,
-    warehouseIdValid, productStatusIdValid, detailValid, quatityValid, priceValid,
+    warehouseIdValid, productStatusIdValid, detailValid, quantityValid, priceValid,
   } = useForm(formFields, formValidations);
 
 
@@ -52,8 +52,9 @@ export const CreateInputProduct = (props: createProps) => {
         warehouseId: warehouseId.id,
         productStatusId: productStatusId.id,
         detail,
-        quatity,
+        quantity,
         price,
+        dueDate
       });
     handleClose();
     onResetForm();
@@ -68,19 +69,12 @@ export const CreateInputProduct = (props: createProps) => {
   }, []);
 
   // 
-  const [dueDate, setDueDate] = useState(null);
-  const [stateDueDate, setStateDueDate] = useState(false)
+  const [dueDate, setDueDate] = useState<Date | null>(null);
+  const [stateDueDate, setStateDueDate] = useState<boolean>(false)
   const handleDueDate = (event: any) => {
     setStateDueDate(event.target.checked)
   };
-  const onDateChanged = (event: any) => {
-    // changing: any
-    console.log('changee', event)
-
-    // setFormValues({
-    //   ...formValues,
-    //   [changing]: event
-    // })
+  const onDateChanged = (event: Date) => {
     setDueDate(event)
   }
   return (
@@ -156,11 +150,11 @@ export const CreateInputProduct = (props: createProps) => {
                 <ComponentInput
                   type="text"
                   label="Cantidad"
-                  name="quatity"
-                  value={quatity}
+                  name="quantity"
+                  value={quantity}
                   onChange={onInputChange}
-                  error={!!quatityValid && formSubmitted}
-                  helperText={formSubmitted ? quatityValid : ''}
+                  error={!!quantityValid && formSubmitted}
+                  helperText={formSubmitted ? quantityValid : ''}
                 />
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>

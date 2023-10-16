@@ -8,3 +8,4 @@ export * from './Search';
 export * from './TablePagination';
 export * from './SwitchDiscount';
 export * from './Date';
+export * from './SelectPicker';

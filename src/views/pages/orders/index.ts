@@ -1,4 +1,3 @@
-export * from './CartView';
 export * from './OrderView';
-export * from './DetailOrder';
-export * from './ProductsStoreView';
+export * from './OrderTable';
+export * from './OutputTable';

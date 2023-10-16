@@ -11,7 +11,7 @@ import {
     productSlice,
     categorySlice,
     unitMeasurementSlice,
-    cartProductSlice,
+    orderSlice,
 
 } from '.';
 
@@ -28,7 +28,7 @@ export const store = configureStore({
         categories: categorySlice.reducer,
         unitMeasurements: unitMeasurementSlice.reducer,
         kardexProducts: kardexProductSlice.reducer,
-        cartProducts: cartProductSlice.reducer,
+        orders: orderSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

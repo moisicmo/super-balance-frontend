@@ -11,7 +11,7 @@ import { MenuOutlined } from '@mui/icons-material';
 // import { useSelector } from 'react-redux';
 import { usePopover } from '@/hooks';
 import { AccountPopover } from '.';
-// import noimage from '@/assets/images/profile.png';
+import noimage from '@/assets/images/profile.png';
 
 const SIDE_NAV_WIDTH = 200;
 const TOP_NAV_HEIGHT = 50;
@@ -67,12 +67,12 @@ export const TopNav = (({ onNavOpen, onTapSettings }: { onNavOpen: any, onTapSet
                         alignItems="center"
                         direction="row"
                     >
-                        {/* <Avatar
+                        <Avatar
                             onClick={accountPopover.handleOpen}
                             ref={accountPopover.anchorRef}
                             sx={{ cursor: 'pointer', width: 45, height: 45 }}
                             src={noimage}
-                        /> */}
+                        />
                     </Stack>
                 </Stack>
             </Box>

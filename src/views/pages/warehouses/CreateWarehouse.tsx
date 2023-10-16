@@ -42,14 +42,14 @@ export const CreateWarehouse = (props: createProps) => {
                 {
                     name: name.trim(),
                     address: address.trim(),
-                    phone: phone.trim(),
+                    phone: phone,
                 });
         } else {
             putUpdateWarehouse(item.id,
                 {
                     name: name.trim(),
                     address: address.trim(),
-                    phone: phone.trim(),
+                    phone: phone,
                 });
         }
         handleClose();

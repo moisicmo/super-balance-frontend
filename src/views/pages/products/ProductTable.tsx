@@ -3,10 +3,10 @@ import { useProductStore } from "@/hooks";
 import { ProductModel, ProductStatusModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined, KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@mui/icons-material";
-import { Box, IconButton, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { IconButton, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { ProductStatusTable } from "./productStatus";
-import imagelogo from '@/assets/images/no-image.webp';
+import { ProductStatusView } from "./productStatus";
+// import imagelogo from '@/assets/images/no-image.webp';
 interface tableProps {
     handleEdit?: (product: ProductModel) => void;
     limitInit?: number;
@@ -24,31 +24,35 @@ export const ProductTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { products, getProducts, deleteProduct } = useProductStore();
+    const { products, getProducts, putUpdateProduct, deleteProduct } = useProductStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [productList, setProductList] = useState<ProductModel[]>([]);
     const [openIndex, setOpenIndex] = useState<string | null>(null);
-
+    const [query, setQuery] = useState<string>('');
 
     useEffect(() => {
         getProducts()
     }, []);
 
     useEffect(() => {
-        const defaultPermisionsList = applyPagination(
-            products,
+        const filtered = products.filter((e: ProductModel) =>
+            e.name.toLowerCase().includes(query.toLowerCase())
+        );
+        const newList = applyPagination(
+            query != '' ? filtered : products,
             page,
             rowsPerPage
         );
-        setProductList(defaultPermisionsList)
-    }, [products, page, rowsPerPage])
+        setProductList(newList)
+    }, [products, page, rowsPerPage, query])
 
 
     return (
         <Stack sx={{ paddingRight: '10px' }}>
             <ComponentSearch
                 title="Buscar Producto"
+                search={setQuery}
             />
             <TableContainer>
                 <Table sx={{ minWidth: 350 }} size="small">
@@ -57,7 +61,7 @@ export const ProductTable = (props: tableProps) => {
                             <TableCell sx={{ fontWeight: 'bold' }}>Estados</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Código</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
-                            <TableCell sx={{ fontWeight: 'bold' }}>Imagen</TableCell>
+                            {/* <TableCell sx={{ fontWeight: 'bold' }}>Imagen</TableCell> */}
                             <TableCell sx={{ fontWeight: 'bold' }}>Cod. Barras</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Categoria</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Und. medida</TableCell>
@@ -89,7 +93,7 @@ export const ProductTable = (props: tableProps) => {
                                     </TableCell>
                                     <TableCell>{product.code}</TableCell>
                                     <TableCell>{product.name}</TableCell>
-                                    <TableCell>
+                                    {/* <TableCell>
                                         <Box
                                             component="img"
                                             sx={{
@@ -99,7 +103,7 @@ export const ProductTable = (props: tableProps) => {
                                             alt={product.name}
                                             src={product.image ?? imagelogo}
                                         />
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell>{product.barCode ?? ''}</TableCell>
                                     <TableCell>{product.categoryId.name}</TableCell>
                                     <TableCell>{product.unitMeasurementId.name}</TableCell>
@@ -107,7 +111,12 @@ export const ProductTable = (props: tableProps) => {
                                         !stateSelect && <TableCell>
                                             <Switch
                                                 checked={product.visible}
-                                                onChange={() => { }}
+                                                onChange={(event) => putUpdateProduct(product.id, {
+                                                    ...product,
+                                                    visible: event.target.checked,
+                                                    categoryId: product.categoryId.id,
+                                                    unitMeasurementId: product.unitMeasurementId.id,
+                                                })}
                                                 color="success"
                                                 size="small"
                                             />
@@ -137,7 +146,7 @@ export const ProductTable = (props: tableProps) => {
                                         </TableCell>
                                     }
                                 </TableRow>
-                                <ProductStatusTable
+                                <ProductStatusView
                                     openIndex={openIndex!}
                                     product={product}
                                     stateSelect={stateSelect}

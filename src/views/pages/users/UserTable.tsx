@@ -27,25 +27,30 @@ export const UserTable = (props: tableProps) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [userList, setUserList] = useState<UserModel[]>([]);
+    const [query, setQuery] = useState<string>('');
 
     useEffect(() => {
         getUsers()
     }, []);
 
     useEffect(() => {
-        const defaultPermisionsList = applyPagination(
-            users,
+        const filtered = users.filter((e: UserModel) =>
+            e.name.toLowerCase().includes(query.toLowerCase())
+        );
+        const newList = applyPagination(
+            query != '' ? filtered : users,
             page,
             rowsPerPage
         );
-        setUserList(defaultPermisionsList)
-    }, [users, page, rowsPerPage])
+        setUserList(newList)
+    }, [users, page, rowsPerPage, query])
 
 
     return (
         <Stack sx={{ paddingRight: '10px' }}>
             <ComponentSearch
                 title="Buscar Usuario"
+                search={setQuery}
             />
             <TableContainer>
                 <Table sx={{ minWidth: 350 }} size="small">

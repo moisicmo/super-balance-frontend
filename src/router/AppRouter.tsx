@@ -11,6 +11,7 @@ import { TypeUsersView } from '@/views/pages/typeUsers';
 import { RolesView } from '@/views/pages/roles';
 import { UsersView } from '@/views/pages/users';
 import { CustomersView } from '@/views/pages/customers';
+import { CustomerCreditsView } from '@/views/pages/customerCredits';
 import { ProductsView } from '@/views/pages/products';
 import { MovementsView } from '@/views/pages/movements';
 import { SalesView } from '@/views/pages/sales';
@@ -36,6 +37,7 @@ export const AppRouter = () => {
                     <Route path='/rolesView' element={<RolesView />} />
                     <Route path='/usersView' element={<UsersView />} />
                     <Route path='/customersView' element={<CustomersView />} />
+                    <Route path='/customerCreditsView' element={<CustomerCreditsView />} />
                     <Route path='/productsView' element={<ProductsView />} />
                     <Route path='/movementsView' element={<MovementsView />} />
                     <Route path='/salesView' element={<SalesView />} />

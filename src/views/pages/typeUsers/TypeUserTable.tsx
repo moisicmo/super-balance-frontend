@@ -28,7 +28,7 @@ export const TypeUserTable = (props: tableProps) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [typeUserList, setTypeUserList] = useState<TypeUserModel[]>([]);
-
+    const [query, setQuery] = useState<string>('');
 
 
     useEffect(() => {
@@ -36,19 +36,23 @@ export const TypeUserTable = (props: tableProps) => {
     }, []);
 
     useEffect(() => {
-        const defaultPermisionsList = applyPagination(
-            typeUsers,
+        const filtered = typeUsers.filter((e: TypeUserModel) =>
+            e.name.toLowerCase().includes(query.toLowerCase())
+        );
+        const newTypeUserList = applyPagination(
+            query != '' ? filtered : typeUsers,
             page,
             rowsPerPage
         );
-        setTypeUserList(defaultPermisionsList)
-    }, [typeUsers, page, rowsPerPage])
+        setTypeUserList(newTypeUserList)
+    }, [typeUsers, page, rowsPerPage, query])
 
 
     return (
         <Stack sx={{ paddingRight: '10px' }}>
             <ComponentSearch
                 title="Buscar Tipo de usuario"
+                search={setQuery}
             />
             <TableContainer>
                 <Table sx={{ minWidth: 350 }} size="small">

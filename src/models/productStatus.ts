@@ -10,3 +10,16 @@ export interface ProductStatusModel {
     discount: number;
     typeDiscount: string;
 }
+/* FORM PRODUCT STATUS MODEL */
+export interface FormProductStatusModel {
+    name: string;
+    price: number;
+    discount: number;
+    typeDiscount: string;
+}
+
+/*FORM PRODUCT STATUS VALIDATIONS */
+export interface FormProductStatusValidations {
+    name: [(value: string) => boolean, string];
+    price: [(value: number) => boolean, string];
+}

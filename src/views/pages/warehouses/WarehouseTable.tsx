@@ -28,7 +28,7 @@ export const WarehouseTable = (props: tableProps) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [warehouseList, setWarehouseList] = useState<WarehouseModel[]>([]);
-
+    const [query, setQuery] = useState<string>('');
 
 
 
@@ -37,18 +37,22 @@ export const WarehouseTable = (props: tableProps) => {
     }, []);
 
     useEffect(() => {
-        const defaultPermisionsList = applyPagination(
-            warehouses,
+        const filtered = warehouses.filter((e: WarehouseModel) =>
+            e.name.toLowerCase().includes(query.toLowerCase())
+        );
+        const newList = applyPagination(
+            query != '' ? filtered : warehouses,
             page,
             rowsPerPage
         );
-        setWarehouseList(defaultPermisionsList)
-    }, [warehouses, page, rowsPerPage])
+        setWarehouseList(newList)
+    }, [warehouses, page, rowsPerPage, query])
 
     return (
         <Stack sx={{ paddingRight: '10px' }}>
             <ComponentSearch
                 title="Buscar Sucursal"
+                search={setQuery}
             />
             <TableContainer>
                 <Table sx={{ minWidth: 350 }} size="small">

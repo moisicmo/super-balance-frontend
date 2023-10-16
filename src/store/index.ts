@@ -9,6 +9,6 @@ export * from './product/productSlice';
 export * from './category/categorySlice';
 export * from './unitMeasurement/unitMeasurementSlice';
 export * from './kardexProduct/kardexProductSlice';
-export * from './cart/cartSlice';
+export * from './order/orderSlice';
 
 export * from './store';

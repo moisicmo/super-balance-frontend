@@ -26,6 +26,37 @@ export const productSlice = createSlice({
         setDeleteProduct: (state, action) => {
             state.products = [...state.products.filter(e => e.id != action.payload.id)];
         },
+        // PRODUCT STATUS
+        setAddProductStatus: (state, action) => {
+            state.products = [...state.products.map((e) => {
+                if (e.id === action.payload.product.id) {
+                    return {
+                        ...action.payload.product
+                    }
+                }
+                return e
+            })];
+        },
+        setUpdateProductStatus: (state, action) => {
+            state.products = [...state.products.map((e) => {
+                if (e.id === action.payload.product.id) {
+                    return {
+                        ...action.payload.product
+                    }
+                }
+                return e
+            })];
+        },
+        setDeleteProductStatus: (state, action) => {
+            state.products = [...state.products.map((e) => {
+                if (e.id === action.payload.id) {
+                    return {
+                        ...action.payload.product
+                    }
+                }
+                return e
+            })];
+        },
     }
 });
 
@@ -35,4 +66,8 @@ export const {
     setAddProduct,
     setUpdateProduct,
     setDeleteProduct,
+    // 
+    setAddProductStatus,
+    setUpdateProductStatus,
+    setDeleteProductStatus,
 } = productSlice.actions;

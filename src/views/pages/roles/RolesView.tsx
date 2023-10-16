@@ -1,18 +1,21 @@
 import { ComponentButton } from "@/components"
 import { Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback, useState } from "react";
-import { CreateRole, RoleTable } from ".";
+import { CreateRole, RoleTable, ShowPermisions } from ".";
 import { Add } from "@mui/icons-material";
-import { RoleModel } from "@/models";
+import { PermissionModel, RoleModel } from "@/models";
 
 export const RolesView = () => {
     const [openDialog, setopenDialog] = useState(false);
     const [itemEdit, setItemEdit] = useState<RoleModel | null>(null);
-
+    const [opendrawer, setOpendrawer] = useState<any>({ state: false, items: [] });
     /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
     const handleDialog = useCallback((value: boolean) => {
         if (!value) setItemEdit(null)
         setopenDialog(value);
+    }, []);
+    const handlePermisions = useCallback((state: boolean, items: PermissionModel[]) => {
+        setOpendrawer({ state, items })
     }, []);
     return (
         <>
@@ -31,6 +34,7 @@ export const RolesView = () => {
                     setItemEdit(v)
                     handleDialog(true)
                 }}
+                onViewPermisions={(items) => handlePermisions(true, items)}
             />
             {
                 openDialog &&
@@ -38,6 +42,13 @@ export const RolesView = () => {
                     open={openDialog}
                     handleClose={() => handleDialog(false)}
                     item={itemEdit}
+                />
+            }
+            {
+                <ShowPermisions
+                    open={opendrawer.state}
+                    handleClose={() => handlePermisions(false, [])}
+                    items={opendrawer.items}
                 />
             }
         </>

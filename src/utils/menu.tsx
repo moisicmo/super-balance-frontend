@@ -30,14 +30,14 @@ export const menu = () => {
                     permission: "show-halls"
                 },
                 {
-                    path: "/salesView",
-                    title: "Punto de venta",
+                    path: "/orderView",
+                    title: "Ordenes",
                     icon: <Home />,
                     permission: "show-halls"
                 },
                 {
-                    path: "/orderView",
-                    title: "Ordenes",
+                    path: "/salesView",
+                    title: "Ventas",
                     icon: <Home />,
                     permission: "show-halls"
                 },
@@ -54,7 +54,7 @@ export const menu = () => {
                     permission: "show-halls"
                 },
                 {
-                    path: "/customersView",
+                    path: "/customerCreditsView",
                     title: "Creditos",
                     icon: <Group />,
                     permission: "show-halls"

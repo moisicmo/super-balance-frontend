@@ -1,13 +1,17 @@
 import { Button, IconButton, Stack, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CancelOutlined } from "@mui/icons-material";
-import { useCartStore, useCustomerStore, useForm } from "@/hooks";
+import { useCustomerStore, useForm } from "@/hooks";
 import { ComponentInput } from "@/components";
-import { CartModel, CustomerModel } from "@/models";
+import { CustomerModel, OutputModel } from "@/models";
 
 
 interface cartProps {
-  warehouseId: string;
+  outputIds: OutputModel[];
+  value: CustomerModel | null;
+  onChange: (value: any) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
 const formFields = {
@@ -17,39 +21,23 @@ const formFields = {
 
 export const DetailSale = (props: cartProps) => {
   const {
-    warehouseId
+    outputIds,
+    value,
+    onChange,
+    error,
+    helperText,
   } = props;
 
   const { search, onInputChange } = useForm(formFields);
 
-  const { getCustomers } = useCustomerStore();
-  const { cartProducts = [] } = useCartStore();
-  const { customers = [] } = useCustomerStore();
-  const [customerPicker, setCustomerPicker] = useState<CustomerModel | null>(null)
+  const { customers = [], getCustomers } = useCustomerStore();
+
   useEffect(() => {
     getCustomers();
   }, []);
 
-  const handleCustomer = (customer: CustomerModel) => {
-    setCustomerPicker(customer)
-  }
 
-  const onDeleteCustomer = () => {
-    setCustomerPicker(null)
-  }
-
-  const sale = () => {
-    console.log(customerPicker)
-    console.log(cartProducts)
-  }
-
-  const total = cartProducts.filter((e: CartModel) => e.warehouseId === warehouseId).reduce(
-    (accumulator: number, product: CartModel) => accumulator + (product.productStatus.price * product.productStatus.quantity),
-    0
-  );
-
-
-
+  const total = outputIds.reduce((sum: number, element: OutputModel) => sum + (element.quantity * element.price), 0);
   return (
     <>
       <Stack spacing={1}>
@@ -66,12 +54,12 @@ export const DetailSale = (props: cartProps) => {
             </TableCell>
           </TableRow>
           {
-            customerPicker != null && <TableRow>
+            value != null && <TableRow>
               <TableCell component="th" style={{ padding: 0 }}>
-                Cliente: {customerPicker.name}
+                Cliente: {value.name}
               </TableCell>
               <TableCell component="th" style={{ padding: 0 }}>
-                <IconButton onClick={() => onDeleteCustomer()}>
+                <IconButton onClick={() => onChange(null)}>
                   <CancelOutlined color="error" />
                 </IconButton>
               </TableCell>
@@ -80,7 +68,7 @@ export const DetailSale = (props: cartProps) => {
         </TableBody>
       </Table>
       {
-        customerPicker == null && <>
+        value == null && <>
           <ComponentInput
             type="text"
             label="Buscar Cliente"
@@ -103,7 +91,7 @@ export const DetailSale = (props: cartProps) => {
                         fullWidth
                         variant="outlined"
                         style={{ margin: 5 }}
-                        onClick={() => handleCustomer(customer)}
+                        onClick={() => onChange(customer)}
                       >
                         {customer.name}
                       </Button>
@@ -115,15 +103,9 @@ export const DetailSale = (props: cartProps) => {
         </>
       }
       {
-
-        total > 0 && customerPicker != null &&
-        <Button
-          variant="contained"
-          fullWidth style={{ padding: 5 }}
-          onClick={() => sale()}
-        >
-          Generar orden
-        </Button>
+        error && (
+          <Typography style={{ color: 'red', fontSize: '0.8rem', padding: '2px' }} >{helperText}</Typography>
+        )
       }
     </>
   )

@@ -3,7 +3,6 @@ import { coffeApi } from '@/services';
 import { setAddKardexProduct, setKardexProduct } from '@/store';
 import Swal from 'sweetalert2';
 
-
 export const useKardexProductStore = () => {
   const { kardexProducts } = useSelector((state: any) => state.kardexProducts);
   const dispatch = useDispatch();
@@ -29,6 +28,8 @@ export const useKardexProductStore = () => {
       Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
     }
   }
+
+
 
   return {
     //* Propiedades
