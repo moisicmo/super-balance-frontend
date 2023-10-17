@@ -23,26 +23,30 @@ export const OrderTable = (props: tableProps) => {
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
   const [orderList, setOrderList] = useState<OrderModel[]>([]);
   const [openIndex, setOpenIndex] = useState<string | null>(null);
-
+  const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
     getOrders()
   }, []);
 
   useEffect(() => {
-    const defaultPermisionsList = applyPagination(
-      orders,
+    const filtered = orders.filter((e: OrderModel) =>
+      e.warehouseId.name.toLowerCase().includes(query.toLowerCase())
+    );
+    const newList = applyPagination(
+      query != '' ? filtered : orders,
       page,
       rowsPerPage
     );
-    setOrderList(defaultPermisionsList)
-  }, [orders, page, rowsPerPage])
+    setOrderList(newList)
+  }, [orders, page, rowsPerPage, query])
 
 
   return (
     <Stack sx={{ paddingRight: '10px' }}>
       <ComponentSearch
         title="Buscar Orden"
+        search={setQuery}
       />
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">

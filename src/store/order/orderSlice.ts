@@ -16,6 +16,16 @@ export const orderSlice = createSlice({
     setAddOrder: (state, action) => {
       state.orders = [...state.orders, action.payload.order];
     },
+    setUpdateOrder: (state, action) => {
+      state.orders = [...state.orders.map((e) => {
+        if (e.id === action.payload.order.id) {
+          return {
+            ...action.payload.order
+          }
+        }
+        return e
+      })];
+    },
     setDeleteOrder: (state, action) => {
       state.orders = [...state.orders.filter(e => e.id != action.payload.id)];
     },
@@ -26,5 +36,6 @@ export const {
   setOrdersSold,
   setOrders,
   setAddOrder,
+  setUpdateOrder,
   setDeleteOrder,
 } = orderSlice.actions;

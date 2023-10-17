@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { coffeApi } from '@/services';
-import { setAddOrder, setDeleteOrder, setOrders, setOrdersSold } from '@/store';
+import { setAddOrder, setDeleteOrder, setOrders, setOrdersSold, setUpdateOrder } from '@/store';
 import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
 export const useOrderStore = () => {
@@ -106,14 +106,14 @@ export const useOrderStore = () => {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const putUpdateOrder = async (body: object) => {
+  const putUpdateOrder = async (id: string, body: object) => {
     try {
       console.log('EDITANDO UNA ORDEN')
       console.log(body)
-      const { data } = await coffeApi.post('/order', body);
-      dispatch(setAddOrder({ order: data.order }))
+      const { data } = await coffeApi.put(`/order/${id}`, body);
+      dispatch(setUpdateOrder({ order: data.order }))
       Swal.fire({
-        title: 'Genial, orden creado!',
+        title: 'Genial, orden Modificado!',
         text: "¿Deseas descargar la PROFORMA DE ORDEN?",
         icon: 'success',
         showCancelButton: true,
@@ -136,13 +136,13 @@ export const useOrderStore = () => {
           // Swal.fire('Reporte generado correctamente', '', 'success');
           Swal.fire(
             'ORDEN Y PROFORMA',
-            'La orden y el documento se genero correctamente',
+            'La orden y el documento se modificaron correctamente',
             'success'
           )
         } else {
           Swal.fire(
             'ORDEN',
-            'La orden se realizo correctamente :)',
+            'La orden se modifico correctamente :)',
             'success'
           )
         }

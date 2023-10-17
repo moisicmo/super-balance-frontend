@@ -40,11 +40,10 @@ export const CartView = (props: cartProps) => {
         <Typography variant="h6">Productos seleccionados</Typography>
         {
           outputIds
-            .filter((e: OutputModel) => e.warehouseId.id === warehouseId)
             .map((output: OutputModel, index: number) => {
 
-              const kardexProductList = kardexProducts.filter((e: KardexProductModel) => e.warehouseId.id == warehouseId && e.inputOrOutput.productStatusId.id == output.productStatusId.id);
-              const kardexProduct: KardexProductModel = kardexProductList[kardexProductList.length - 1];
+              // const kardexProductList = kardexProducts.filter((e: KardexProductModel) => e.warehouseId.id == warehouseId && e.inputOrOutput.productStatusId.id == output.productStatusId.id);
+              // const kardexProduct: KardexProductModel = kardexProductList[kardexProductList.length - 1];
               return (
                 <div key={index} style={{ borderRadius: 10, border: '1px solid #ccc', padding: 5 }}>
                   <Typography>{output.productStatusId.productId.name} - {output.productStatusId.name}</Typography>
@@ -70,7 +69,7 @@ export const CartView = (props: cartProps) => {
                             <Typography>{output.quantity}</Typography>
                             <ElevatedIconButton
                               onClick={() => addItem({ ...output, quantity: output.quantity + 1 })}
-                              disabled={kardexProduct.stock == output.quantity}
+                            // disabled={kardexProduct.stock == output.quantity}
                             >
                               <Add />
                             </ElevatedIconButton>

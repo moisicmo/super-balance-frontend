@@ -36,7 +36,7 @@ export const CreateOrder = (props: createProps) => {
   const { getProducts } = useProductStore();
   const { warehouses = [], getWarehouses } = useWarehouseStore();
   const { getAllKardexProducts } = useKardexProductStore();
-  const { postCreateOrder } = useOrderStore();
+  const { postCreateOrder, putUpdateOrder } = useOrderStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
@@ -49,7 +49,11 @@ export const CreateOrder = (props: createProps) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
-    await postCreateOrder({ warehouseId: warehouseId.id, customerId, outputIds });
+    if (item == null) {
+      await postCreateOrder({ warehouseId: warehouseId.id, customerId, outputIds });
+    } else {
+      await putUpdateOrder(item.id, { warehouseId: warehouseId.id, customerId, outputIds });
+    }
     handleClose();
   }
 

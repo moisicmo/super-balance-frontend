@@ -49,7 +49,7 @@ export const productSlice = createSlice({
         },
         setDeleteProductStatus: (state, action) => {
             state.products = [...state.products.map((e) => {
-                if (e.id === action.payload.id) {
+                if (e.id === action.payload.product.id) {
                     return {
                         ...action.payload.product
                     }

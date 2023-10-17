@@ -44,7 +44,7 @@ export const useProductStatusStore = () => {
         if (result.isConfirmed) {
           const { data } = await coffeApi.delete(`/productStatus/${id}`);
           console.log(data)
-          dispatch(setDeleteProductStatus({ id }));
+          dispatch(setDeleteProductStatus({ product: data.product }));
           Swal.fire(
             'Eliminado',
             'El producto eliminado correctamente',

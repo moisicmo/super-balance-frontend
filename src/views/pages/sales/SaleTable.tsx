@@ -21,26 +21,30 @@ export const SaleTable = (props: tableProps) => {
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
   const [orderSoldList, setOrderSoldList] = useState<OrderModel[]>([]);
   const [openIndex, setOpenIndex] = useState<string | null>(null);
-
+  const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
     getOrdersSold()
   }, []);
 
   useEffect(() => {
-    const defaultPermisionsList = applyPagination(
-      ordersSold,
+    const filtered = ordersSold.filter((e: OrderModel) =>
+      e.warehouseId.name.toLowerCase().includes(query.toLowerCase())
+    );
+    const newList = applyPagination(
+      query != '' ? filtered : ordersSold,
       page,
       rowsPerPage
     );
-    setOrderSoldList(defaultPermisionsList)
-  }, [ordersSold, page, rowsPerPage])
+    setOrderSoldList(newList)
+  }, [ordersSold, page, rowsPerPage, query])
 
 
   return (
     <Stack sx={{ paddingRight: '10px' }}>
       <ComponentSearch
         title="Buscar Venta"
+        search={setQuery}
       />
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">

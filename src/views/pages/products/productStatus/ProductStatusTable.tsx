@@ -1,4 +1,5 @@
 import { SeverityPill } from '@/components';
+import { useProductStatusStore } from '@/hooks';
 import { ProductModel, ProductStatusModel } from '@/models';
 import { DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { Checkbox, IconButton, Stack, Switch, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
@@ -20,6 +21,7 @@ export const ProductStatusTable = (props: tableProps) => {
         handleEdit,
         items = [],
     } = props;
+    const { deleteProductStatus } = useProductStatusStore();
     return (
         <Table size="small" aria-label="purchases">
             <TableHead>
@@ -76,12 +78,12 @@ export const ProductStatusTable = (props: tableProps) => {
                                     </IconButton>
                                     <Switch
                                         checked={productStatus.state}
-                                        onChange={() => { }}
+                                        onChange={() => deleteProductStatus(productStatus.id)}
                                         color="success"
                                         size="small"
                                     />
                                     <IconButton
-                                        onClick={() => { }}
+                                        onClick={() => deleteProductStatus(productStatus.id)}
                                     >
                                         <DeleteOutline color="error" />
                                     </IconButton>
