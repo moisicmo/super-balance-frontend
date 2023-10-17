@@ -24,7 +24,7 @@ export const CustomerTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { customers, getCustomers, deleteCustomer } = useCustomerStore();
+    const { customers = [], getCustomers, deleteCustomer } = useCustomerStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [customerList, setCustomerList] = useState<CustomerModel[]>([]);

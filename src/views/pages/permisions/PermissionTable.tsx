@@ -20,7 +20,7 @@ export const PermissionTable = (props: tableProps) => {
         limitInit = 10,
     } = props;
 
-    const { permissions, getPermissions } = usePermissionStore();
+    const { permissions = [], getPermissions } = usePermissionStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [permisionList, setTypeUserList] = useState<PermissionModel[]>([]);

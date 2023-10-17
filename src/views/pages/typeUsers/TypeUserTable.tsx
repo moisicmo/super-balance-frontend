@@ -24,7 +24,7 @@ export const TypeUserTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { typeUsers, getTypeUsers, deleteTypeUser } = useTypeUserStore();
+    const { typeUsers = [], getTypeUsers, deleteTypeUser } = useTypeUserStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [typeUserList, setTypeUserList] = useState<TypeUserModel[]>([]);

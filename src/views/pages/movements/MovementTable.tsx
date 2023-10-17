@@ -9,7 +9,7 @@ import esES from 'date-fns/locale/es';
 
 export const MovementTable = () => {
 
-  const { kardexProducts, getAllKardexProducts } = useKardexProductStore();
+  const { kardexProducts = [], getAllKardexProducts } = useKardexProductStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [kardexProductList, setKardexProductList] = useState<KardexProductModel[]>([]);

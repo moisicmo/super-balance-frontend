@@ -26,7 +26,7 @@ export const RoleTable = (props: tableProps) => {
         onViewPermisions,
     } = props;
 
-    const { roles, getRoles, deleteRole } = useRoleStore();
+    const { roles = [], getRoles, deleteRole } = useRoleStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [roleList, setRoleList] = useState<RoleModel[]>([]);

@@ -1,7 +1,7 @@
 import { IconButton, Stack, Table, TableBody, TableCell, TableRow, Typography, styled } from "@mui/material";
 import { Add, DeleteOutline, Remove } from "@mui/icons-material";
-import { useKardexProductStore } from "@/hooks";
-import { KardexProductModel, OutputModel } from "@/models";
+// import { useKardexProductStore } from "@/hooks";
+import { OutputModel } from "@/models";
 interface cartProps {
   outputIds: OutputModel[];
   subtractItem: (output: OutputModel) => void;
@@ -19,12 +19,12 @@ export const CartView = (props: cartProps) => {
     subtractItem,
     addItem,
     removeItem,
-    warehouseId,
+    // warehouseId,
     error,
     helperText,
   } = props;
 
-  const { kardexProducts = [] } = useKardexProductStore();
+  // const { kardexProducts = [] } = useKardexProductStore();
 
 
   const ElevatedIconButton = styled(IconButton)(({ theme }) => ({

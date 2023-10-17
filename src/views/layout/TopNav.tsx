@@ -6,7 +6,7 @@ import {
     Stack,
     useMediaQuery
 } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { MenuOutlined } from '@mui/icons-material';
 // import { useSelector } from 'react-redux';
 import { usePopover } from '@/hooks';
@@ -30,7 +30,7 @@ export const TopNav = (({ onNavOpen, onTapSettings }: { onNavOpen: any, onTapSet
                 component="header"
                 sx={{
                     backdropFilter: 'blur(6px)',
-                    backgroundColor: (theme) => 'transparent',
+                    backgroundColor: () => 'transparent',
                     position: 'sticky',
                     left: {
                         lg: `${SIDE_NAV_WIDTH}px`

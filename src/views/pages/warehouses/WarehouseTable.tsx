@@ -24,7 +24,7 @@ export const WarehouseTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { warehouses, getWarehouses, deleteWarehouse } = useWarehouseStore();
+    const { warehouses = [], getWarehouses, deleteWarehouse } = useWarehouseStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [warehouseList, setWarehouseList] = useState<WarehouseModel[]>([]);

@@ -20,7 +20,7 @@ export const TypeDocumentTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { typeDocuments, getTypeDocuments } = useTypeDocumentStore();
+    const { typeDocuments = [], getTypeDocuments } = useTypeDocumentStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [typeDocumentlist, setTypeDocumentList] = useState<TypeDocumentModel[]>([]);

@@ -20,7 +20,7 @@ export const CategoryTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { categories, getCategories, deleteCategory } = useCategoryStore();
+    const { categories = [], getCategories, deleteCategory } = useCategoryStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [categoryList, setCategoryList] = useState<CategoryModel[]>([]);

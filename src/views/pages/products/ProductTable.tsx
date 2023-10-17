@@ -24,7 +24,7 @@ export const ProductTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { products, getProducts, putUpdateProduct, deleteProduct } = useProductStore();
+    const { products = [], getProducts, putUpdateProduct, deleteProduct } = useProductStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [productList, setProductList] = useState<ProductModel[]>([]);

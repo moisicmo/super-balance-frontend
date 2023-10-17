@@ -20,7 +20,7 @@ export const UnitMeasurementTable = (props: tableProps) => {
         items = [],
     } = props;
 
-    const { unitMeasurements, getUnitMeasurements, deleteUnitMeasurement } = useUnitMeasurementStore();
+    const { unitMeasurements = [], getUnitMeasurements, deleteUnitMeasurement } = useUnitMeasurementStore();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(limitInit);
     const [unitMeasurementList, setUnitMeasurement] = useState<UnitMeasurementModel[]>([]);
